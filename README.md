@@ -1,2 +1,1 @@
-# SEAT-CODE
-code challenge 
+# SEAT-CODE challenge
