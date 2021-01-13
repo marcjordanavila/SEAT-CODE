@@ -7,13 +7,21 @@ interface ICities {
   longitude: number
 }
 
+interface Action {
+  type: string
+}
+
 type CityState = {
   cities: ICities[]
 }
 
-type CityAction = {
-  type: string
-  city: ICity
+interface CityAction extends Action  {
+  payload: ICity
 }
 
-type DispatchType = (args: CityAction) => CityAction
+interface CitiesAction extends Action  {
+  payload: ICities[]
+}
+
+type DispatchCityType = (args: CityAction) => CityAction
+type DispatchCitiesType = (args: CitiesAction) => CitiesAction

@@ -1,25 +1,31 @@
 import * as actionTypes from "./actionTypes"
 
+export function getCities(cities: ICities[]) {
+  const action: CitiesAction = {
+    type: actionTypes.GET_CITIES,
+    payload: cities,
+  }
+  return (dispatch: DispatchCitiesType) => {
+    dispatch(action)
+  }
+}
+
 export function addCity(city: ICities) {
   const action: CityAction = {
     type: actionTypes.ADD_CITY,
-    city,
+    payload: city,
   }
-  return simulateHttpRequest(action)
+  return (dispatch: DispatchCityType) => {
+    dispatch(action)
+  }
 }
 
 export function removeCity(city: ICities) {
   const action: CityAction = {
     type: actionTypes.REMOVE_CITY,
-    city,
+    payload: city,
   }
-  return simulateHttpRequest(action)
-}
-
-export function simulateHttpRequest(city: CityAction) {
-  return (dispatch: DispatchType) => {
-    setTimeout(() => {
-      dispatch(city)
-    }, 500)
+  return (dispatch: DispatchCityType) => {
+    dispatch(action)
   }
 }

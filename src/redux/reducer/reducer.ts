@@ -1,44 +1,54 @@
 import * as actionTypes from "../actions/actionTypes"
 
 const initialState: CityState = {
-  cities: [
-    {
-      id: 1,
-      name: "Barcelona",
-      country: "España",
-      population: 1000,
-      latitude: 1,
-      longitude: 1
-    }
-  ],
+  cities: [],
+}
+
+// The Type Guard Functions
+function isCityAction(action: Action): action is CityAction {
+  return (action.type === actionTypes.ADD_CITY || action.type === actionTypes.REMOVE_CITY)
+}
+function isCitiesAction(action: Action): action is CitiesAction {
+  return (action.type === actionTypes.GET_CITIES)
 }
 
 const reducer = (
   state: CityState = initialState,
-  action: CityAction
+  action: CityAction | CitiesAction
 ): CityState => {
-  switch (action.type) {
-    case actionTypes.ADD_CITY:
-      const newCity: ICities = {
-        id: Math.random(), // not really unique
-        name: action.city.name,
-        country: action.city.country,
-        population: action.city.population,
-        latitude: action.city.latitude,
-        longitude: action.city.longitude
-      }
-      return {
-        ...state,
-        cities: state.cities.concat(newCity),
-      }
-    case actionTypes.REMOVE_CITY:
-      const updatedCities: ICities[] = state.cities.filter(
-        city => city.id !== action.city.id
-      )
-      return {
-        ...state,
-        cities: updatedCities,
-      }
+  if (isCityAction(action)) {
+    switch (action.type) {
+      case actionTypes.ADD_CITY:
+        const newCity: ICities = {
+          id: action.payload.id, // not really unique
+          name: action.payload.name,
+          country: action.payload.country,
+          population: action.payload.population,
+          latitude: action.payload.latitude,
+          longitude: action.payload.longitude
+        }
+        return {
+          ...state,
+          cities: state.cities.concat(newCity),
+        }
+      case actionTypes.REMOVE_CITY:
+        const updatedCities: ICities[] = state.cities.filter(
+          city => city.id !== action.payload.id
+        )
+        return {
+          ...state,
+          cities: updatedCities,
+        }
+    }
+  }
+  if (isCitiesAction(action)) {
+    switch (action.type) {
+      case actionTypes.GET_CITIES:
+        return {
+          ...state,
+          cities: action.payload
+        }
+    }
   }
   return state
 }
