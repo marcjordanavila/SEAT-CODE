@@ -12,13 +12,8 @@ export const AddCityComp: React.FC<Props> = ({ saveCity, cities }) => {
   const [population, setPopulation] = React.useState<number>(0);
   const [latitude, setLatitude] = React.useState<number>(0);
   const [longitude, setLongitude] = React.useState<number>(0);
-  const [error, setError]: [string, (error: string) => void] = React.useState(
-    ""
-  );
-  const [loading, setLoading]: [
-    boolean,
-    (loading: boolean) => void
-  ] = React.useState<boolean>(true);
+  const [error, setError] = React.useState<string>("");
+  const [loading, setLoading] = React.useState<boolean>(true);
 
   const handleOnChangeCityData = (e: React.FormEvent<HTMLInputElement>) => {
     if (e.currentTarget.id === "name") setName(e.currentTarget.value);
@@ -32,8 +27,8 @@ export const AddCityComp: React.FC<Props> = ({ saveCity, cities }) => {
 
   const addNewCity = (e: React.FormEvent) => {
     let newId = getNewId(cities);
-    console.log(cities);
     e.preventDefault();
+    setLoading(true);
     axios
       .post("http://localhost:8080/cities", {
         id: newId,
@@ -58,13 +53,14 @@ export const AddCityComp: React.FC<Props> = ({ saveCity, cities }) => {
         setPopulation(0);
         setLatitude(0);
         setLongitude(0);
+        setLoading(false);
       })
       .catch((err) => {
         const error =
           err.response.status === 404
             ? "Resource not found"
             : "An unexpected error has occurred";
-        setError(err);
+        setError(error);
         setLoading(false);
       });
   };
@@ -95,7 +91,7 @@ export const AddCityComp: React.FC<Props> = ({ saveCity, cities }) => {
 
   return (
     <>
-      {/*error && <p className="error">{error}</p>*/}
+      {error && <p className="error">{error}</p>}
       <form onSubmit={addNewCity} className="Add-city">
         <input
           type="text"

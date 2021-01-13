@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import axios from "axios";
 
 import { AddCityComp } from "./components/addCityComp";
 import { Table } from "./components/table";
@@ -7,7 +8,6 @@ import { Dispatch } from "redux";
 import { getCities, addCity, removeCity } from "./redux/actions/actionCreators";
 
 import "./App.css";
-import axios from "axios";
 
 const App: React.FC = () => {
   const [citiesAreLoaded, setCitiesAreLoaded] = React.useState<boolean>(false);
@@ -37,7 +37,7 @@ const App: React.FC = () => {
             err.response.status === 404
               ? "Resource not found"
               : "An unexpected error has occurred";
-          setError(err);
+          setError(error);
           setLoading(false);
         });
     }
