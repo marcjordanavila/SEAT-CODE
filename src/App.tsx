@@ -6,18 +6,14 @@ import { AddCityComp } from "./components/addCityComp";
 import { Table } from "./components/table";
 import { Dispatch } from "redux";
 import { getCities, addCity, removeCity } from "./redux/actions/actionCreators";
+import { ICities, CityState } from "./models/city";
 
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const App: React.FC = () => {
   const [citiesAreLoaded, setCitiesAreLoaded] = React.useState<boolean>(false);
-  const [loading, setLoading]: [
-    boolean,
-    (loading: boolean) => void
-  ] = React.useState<boolean>(true);
-  const [error, setError]: [string, (error: string) => void] = React.useState(
-    ""
-  );
+  const [error, setError] = React.useState("");
 
   useEffect(() => {
     if (!citiesAreLoaded) {
@@ -29,7 +25,6 @@ const App: React.FC = () => {
         })
         .then((response) => {
           getCitiesInformation(response.data);
-          setLoading(false);
           setCitiesAreLoaded(true);
         })
         .catch((err) => {
@@ -38,7 +33,6 @@ const App: React.FC = () => {
               ? "Resource not found"
               : "An unexpected error has occurred";
           setError(error);
-          setLoading(false);
         });
     }
   });
@@ -61,12 +55,13 @@ const App: React.FC = () => {
   );
 
   return (
-    <main>
-      <h1>My Cities</h1>
-      {error && <p className="error">{error}</p>}
-      <AddCityComp saveCity={saveCity} cities={cities} />
-      <Table content={cities} title="Ciudades" removeField={removeCity} />
-    </main>
+    <div className="container">
+      <div className="col-12 mt-5">
+        {error && <p className="error">{error}</p>}
+        <Table content={cities} title="Ciudades" removeField={removeCity} />
+        <AddCityComp saveCity={saveCity} cities={cities} />
+      </div>
+    </div>
   );
 };
 

@@ -10,16 +10,6 @@ body {
   background: #f5f6f7;
 }
 
-main {
-  max-width: 30rem;
-  margin: auto;
-  padding: 2rem 1rem;
-}
-
-main > h1 {
-  text-align: center;
-}
-
 .Add-city {
   margin: 2rem auto;
   padding: 1rem;
@@ -29,16 +19,6 @@ main > h1 {
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-}
-
-.Add-city input {
-  display: block;
-  margin: 0.5rem auto;
-  width: 20rem;
-  padding: 0.5rem;
-  border: 1px solid #00b8e6;
-  border-radius: 4px;
-  outline: none;
 }
 
 .Add-city button {
@@ -57,10 +37,51 @@ main > h1 {
   background: #0093b8;
 }
 
+.tableButton:hover {
+  background: rgb(243, 137, 137);
+  color: black;
+}
+
 .Add-city button:disabled {
   background: #d8d8d8;
   border: 1px solid #d8d8d8;
   cursor: not-allowed;
+}
+
+.addCity {
+  background-color: #00b8e6;
+  border-radius: 10px;
+}
+
+.addCityButton {
+  display: inline-flex;
+  height: 40px;
+  width: 150px;
+  border: 2px solid #bfc0c0;
+  margin: 20px 20px 20px 20px;
+  color: #bfc0c0;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 0.8em;
+  letter-spacing: 1.5px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.tableButton {
+  display: inline-flex;
+  height: 25px;
+  width: 125px;
+  border: 2px solid #bfc0c0;
+  color: #bfc0c0;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 0.8em;
+  letter-spacing: 1.5px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .City {
@@ -74,13 +95,6 @@ main > h1 {
 
 .City:not(:last-child) {
   border-bottom: 2px solid #f5f6f7;
-}
-
-.City h1 {
-  color: #222;
-  text-transform: capitalize;
-  font-weight: 700;
-  font-size: 1.7rem;
 }
 
 .City p {
@@ -125,6 +139,10 @@ main > h1 {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #4caf50;
+  background-color: #00b8e6;
   color: white;
+}
+
+.error {
+  color: red;
 }

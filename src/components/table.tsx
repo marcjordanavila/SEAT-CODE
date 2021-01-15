@@ -3,15 +3,26 @@ import { Dispatch } from "redux";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 
+import { ICities, CityProperties } from "../models/city";
+import { sortAsc, sortDesc } from "../redux/actions/actionCreators";
+
 type Props = {
   content: ICities[];
   title: string;
   removeField: (city: ICities) => void;
 };
 
+// enum CityProperties {
+//   name = "name",
+//   country = "country",
+//   population = "population",
+//   latitude = "latitude",
+//   longitude = "longitude",
+// }
+
 export const Table: React.FC<Props> = ({ content, title, removeField }) => {
-  const [loading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<string>("");
+  const [sortAscState, setSortAscState] = React.useState<boolean>(true);
 
   const dispatch: Dispatch<any> = useDispatch();
 
@@ -28,7 +39,6 @@ export const Table: React.FC<Props> = ({ content, title, removeField }) => {
             ? "Resource not found"
             : "An unexpected error has occurred";
         setError(error);
-        setLoading(false);
       });
   };
 
@@ -37,18 +47,43 @@ export const Table: React.FC<Props> = ({ content, title, removeField }) => {
     [dispatch, removeField]
   );
 
+  const sortFieldAsc = React.useCallback(
+    (field: string) => dispatch(sortAsc(field)),
+    [dispatch]
+  );
+
+  const sortFieldDesc = React.useCallback(
+    (field: string) => dispatch(sortDesc(field)),
+    [dispatch]
+  );
+
+  const sortField = (field: string) => {
+    if (sortAscState) {
+      sortFieldAsc(field);
+    } else {
+      sortFieldDesc(field);
+    }
+    setSortAscState(!sortAscState);
+  };
+
   return (
-    <div>
+    <div className="mb-5">
       {error && <p className="error">{error}</p>}
-      <h1>{title}</h1>
+      <h1 className="text-center mb-4">{title}</h1>
       <table className="table">
         <tbody>
           <tr>
-            <th>{`Ciudad`}</th>
-            <th>{`País`}</th>
-            <th>{`Población`}</th>
-            <th>{`Latitud`}</th>
-            <th>{`Longitud`}</th>
+            <th onClick={() => sortField(CityProperties.name)}>{`Ciudad`}</th>
+            <th onClick={() => sortField(CityProperties.country)}>{`País`}</th>
+            <th
+              onClick={() => sortField(CityProperties.population)}
+            >{`Población`}</th>
+            <th
+              onClick={() => sortField(CityProperties.latitude)}
+            >{`Latitud`}</th>
+            <th
+              onClick={() => sortField(CityProperties.longitude)}
+            >{`Longitud`}</th>
             <th>{``}</th>
           </tr>
           {content.map((field) => {
@@ -59,8 +94,13 @@ export const Table: React.FC<Props> = ({ content, title, removeField }) => {
                 <td>{field.population}</td>
                 <td>{field.latitude}</td>
                 <td>{field.longitude}</td>
-                <td>
-                  <button onClick={() => deleteField(field)}>Delete</button>
+                <td className="text-center">
+                  <button
+                    className="tableButton"
+                    onClick={() => deleteField(field)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             );
