@@ -1,7 +1,7 @@
 import * as React from "react";
 import axios from "axios";
 
-import { ICities } from "../models/city";
+import { ICities, CityProperties } from "../models/city";
 
 type Props = {
   saveCity: (city: ICities | any) => void;
@@ -17,12 +17,15 @@ export const AddCityComp: React.FC<Props> = ({ saveCity, cities }) => {
   const [error, setError] = React.useState<string>("");
 
   const handleOnChangeCityData = (e: React.FormEvent<HTMLInputElement>) => {
-    if (e.currentTarget.id === "name") setName(e.currentTarget.value);
-    if (e.currentTarget.id === "country") setCountry(e.currentTarget.value);
-    if (e.currentTarget.id === "population")
+    if (e.currentTarget.id === CityProperties.name)
+      setName(e.currentTarget.value);
+    if (e.currentTarget.id === CityProperties.country)
+      setCountry(e.currentTarget.value);
+    if (e.currentTarget.id === CityProperties.population)
       setPopulation(+e.currentTarget.value); //Cast string to number
-    if (e.currentTarget.id === "latitude") setLatitude(+e.currentTarget.value);
-    if (e.currentTarget.id === "longitude")
+    if (e.currentTarget.id === CityProperties.latitude)
+      setLatitude(+e.currentTarget.value);
+    if (e.currentTarget.id === CityProperties.longitude)
       setLongitude(+e.currentTarget.value);
   };
 

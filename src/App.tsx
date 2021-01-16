@@ -29,9 +29,9 @@ const App: React.FC = () => {
         })
         .catch((err) => {
           const error =
-            err.response.status === 404
+            err.response?.status === 404
               ? "Resource not found"
-              : "An unexpected error has occurred";
+              : "Check if database is running";
           setError(error);
         });
     }

@@ -5,6 +5,7 @@ import axios from "axios";
 
 import { ICities, CityProperties } from "../models/city";
 import { sortAsc, sortDesc } from "../redux/actions/actionCreators";
+import { SearchCity } from "./searchCity";
 
 type Props = {
   content: ICities[];
@@ -12,19 +13,19 @@ type Props = {
   removeField: (city: ICities) => void;
 };
 
-// enum CityProperties {
-//   name = "name",
-//   country = "country",
-//   population = "population",
-//   latitude = "latitude",
-//   longitude = "longitude",
-// }
-
 export const Table: React.FC<Props> = ({ content, title, removeField }) => {
   const [error, setError] = React.useState<string>("");
   const [sortAscState, setSortAscState] = React.useState<boolean>(true);
-
+  const [tableInfo, setTableInfo] = React.useState<ICities[]>([]);
+  const [infoLoaded, setInfoLoaded] = React.useState<boolean>(false);
   const dispatch: Dispatch<any> = useDispatch();
+
+  React.useEffect(() => {
+    if (!infoLoaded) {
+      setTableInfo(content);
+      setInfoLoaded(false);
+    }
+  }, [infoLoaded, content]);
 
   const deleteField = (field: ICities) => {
     let id = field.id;
@@ -66,10 +67,49 @@ export const Table: React.FC<Props> = ({ content, title, removeField }) => {
     setSortAscState(!sortAscState);
   };
 
+  const search = (field: string) => {
+    let obj: any;
+    let values: any[];
+    if (field) {
+      const info = content.filter((city: ICities) => {
+        obj = JSON.parse(JSON.stringify(city));
+        values = Object.keys(obj).map((key: string, i: number) => {
+          return obj[key];
+        });
+        return JSON.stringify(values)
+          .toLowerCase()
+          .includes(field.toLowerCase());
+      });
+      setTableInfo(info);
+    } else {
+      setTableInfo(content);
+    }
+  };
+
+  const showFilteredTable = () => {
+    return tableInfo.map((field) => {
+      return (
+        <tr key={field.id}>
+          <td>{field.name}</td>
+          <td>{field.country}</td>
+          <td>{field.population}</td>
+          <td>{field.latitude}</td>
+          <td>{field.longitude}</td>
+          <td className="text-center">
+            <button className="tableButton" onClick={() => deleteField(field)}>
+              Delete
+            </button>
+          </td>
+        </tr>
+      );
+    });
+  };
+
   return (
     <div className="mb-5">
-      {error && <p className="error">{error}</p>}
       <h1 className="text-center mb-4">{title}</h1>
+      <div className="row">{error && <p className="error">{error}</p>}</div>
+      <div className="row">{<SearchCity searchInput={search} />}</div>
       <table className="table">
         <tbody>
           <tr>
@@ -86,25 +126,7 @@ export const Table: React.FC<Props> = ({ content, title, removeField }) => {
             >{`Longitud`}</th>
             <th>{``}</th>
           </tr>
-          {content.map((field) => {
-            return (
-              <tr key={field.id}>
-                <td>{field.name}</td>
-                <td>{field.country}</td>
-                <td>{field.population}</td>
-                <td>{field.latitude}</td>
-                <td>{field.longitude}</td>
-                <td className="text-center">
-                  <button
-                    className="tableButton"
-                    onClick={() => deleteField(field)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
+          {showFilteredTable()}
         </tbody>
       </table>
     </div>
