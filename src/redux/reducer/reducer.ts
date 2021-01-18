@@ -28,7 +28,7 @@ const reducer = (
     switch (action.type) {
       case actionTypes.ADD_CITY:
         const newCity: ICities = {
-          id: action.payload.id, // not really unique
+          id: action.payload.id, 
           name: action.payload.name,
           country: action.payload.country,
           population: action.payload.population,

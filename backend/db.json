@@ -4,57 +4,57 @@
       "id": 1,
       "name": "Barcelona",
       "country": "España",
-      "population": "5585556",
-      "latitude": "41.38879",
-      "longitude": "2.15899"
+      "population": 5585556,
+      "latitude": 41.38879,
+      "longitude": 2.15899
     },
     {
       "id": 2,
       "name": "Chicago",
       "country": "Estados Unidos",
-      "population": "2686530",
-      "latitude": "41.85003",
-      "longitude": "-87.65005"
+      "population": 2686530,
+      "latitude": 41.85003,
+      "longitude": -87.65005
     },
     {
       "id": 3,
       "name": "Estambul",
       "country": "Turquía",
-      "population": "15190336",
-      "latitude": "41.01384",
-      "longitude": "28.94966"
+      "population": 15190336,
+      "latitude": 41.01384,
+      "longitude": 28.94966
     },
     {
       "id": 4,
       "name": "Roma",
       "country": "Italia",
-      "population": "4257056",
-      "latitude": "41.89193",
-      "longitude": "12.51133"
+      "population": 4257056,
+      "latitude": 41.89193,
+      "longitude": 12.51133
     },
     {
       "id": 5,
       "name": "Shenyang",
       "country": "China",
-      "population": "1442299618",
-      "latitude": "41.79222",
-      "longitude": "123.43278"
+      "population": 1442299618,
+      "latitude": 41.79222,
+      "longitude": 123.43278
     },
     {
       "id": 6,
       "name": "París",
       "country": "Francia",
-      "population": "11017230",
-      "latitude": "48.85341",
-      "longitude": "2.3488"
+      "population": 11017230,
+      "latitude": 48.85341,
+      "longitude": 2.3488
     },
     {
       "id": 7,
       "name": "Cotonú",
       "country": "Benín",
-      "population": "695737",
-      "latitude": "6.36536",
-      "longitude": "2.41833"
+      "population": 695737,
+      "latitude": 6.36536,
+      "longitude": 2.41833
     }
   ]
 }

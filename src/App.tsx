@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import axios from "axios";
 
 import { AddCityComp } from "./components/addCityComp";
 import { Table } from "./components/table";
 import { Dispatch } from "redux";
 import { getCities, addCity, removeCity } from "./redux/actions/actionCreators";
 import { ICities, CityState } from "./models/city";
+import { getDBCities } from "./core/api";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -17,12 +17,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (!citiesAreLoaded) {
-      axios
-        .get<ICities[]>("http://localhost:8080/cities", {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
+      getDBCities()
         .then((response) => {
           getCitiesInformation(response.data);
           setCitiesAreLoaded(true);

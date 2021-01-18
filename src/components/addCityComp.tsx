@@ -1,7 +1,8 @@
 import * as React from "react";
-import axios from "axios";
 
 import { ICities, CityProperties } from "../models/city";
+
+import { addDBField } from "../core/api";
 
 type Props = {
   saveCity: (city: ICities | any) => void;
@@ -31,31 +32,19 @@ export const AddCityComp: React.FC<Props> = ({ saveCity, cities }) => {
 
   const addNewCity = (e: React.FormEvent) => {
     let newId = getNewId(cities);
+    let cityToSave: ICities = {
+      id: newId,
+      name: name,
+      country: country,
+      population: population,
+      latitude: latitude,
+      longitude: longitude,
+    };
     e.preventDefault();
-    axios
-      .post("http://localhost:8080/cities", {
-        id: newId,
-        name: name,
-        country: country,
-        population: population,
-        latitude: latitude,
-        longitude: longitude,
-      })
+    addDBField(cityToSave)
       .then(() => {
-        let auxCity: ICities = {
-          id: newId,
-          name: name,
-          country: country,
-          population: population,
-          latitude: latitude,
-          longitude: longitude,
-        };
-        saveCity(auxCity);
-        setName("");
-        setCountry("");
-        setPopulation(0);
-        setLatitude(0);
-        setLongitude(0);
+        saveCity(cityToSave);
+        clearInputFields();
       })
       .catch((err) => {
         const error =
@@ -64,6 +53,14 @@ export const AddCityComp: React.FC<Props> = ({ saveCity, cities }) => {
             : "An unexpected error has occurred";
         setError(error);
       });
+  };
+
+  const clearInputFields = () => {
+    setName("");
+    setCountry("");
+    setPopulation(0);
+    setLatitude(0);
+    setLongitude(0);
   };
 
   const getNewId = (cities: ICities[]) => {

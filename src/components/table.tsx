@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Dispatch } from "redux";
 import { useDispatch } from "react-redux";
-import axios from "axios";
 
 import { ICities, CityProperties } from "../models/city";
 import { sortAsc, sortDesc } from "../redux/actions/actionCreators";
 import { SearchCity } from "./searchCity";
+import { deleteDBField } from "../core/api";
 
 type Props = {
   content: ICities[];
@@ -17,22 +17,16 @@ export const Table: React.FC<Props> = ({ content, title, removeField }) => {
   const [error, setError] = React.useState<string>("");
   const [sortAscState, setSortAscState] = React.useState<boolean>(true);
   const [tableInfo, setTableInfo] = React.useState<ICities[]>([]);
-  const [infoLoaded, setInfoLoaded] = React.useState<boolean>(false);
   const dispatch: Dispatch<any> = useDispatch();
 
   React.useEffect(() => {
-    if (!infoLoaded) {
-      setTableInfo(content);
-      setInfoLoaded(false);
-    }
-  }, [infoLoaded, content]);
+    setTableInfo(content);
+  }, [content]);
 
   const deleteField = (field: ICities) => {
-    let id = field.id;
-    axios
-      .delete(`http://localhost:8080/cities/${id}`)
+    deleteDBField(field.id)
       .then(() => {
-        deleteFieldRedux(field);
+        deleteReduxField(field);
       })
       .catch((err) => {
         const error =
@@ -43,7 +37,7 @@ export const Table: React.FC<Props> = ({ content, title, removeField }) => {
       });
   };
 
-  const deleteFieldRedux = React.useCallback(
+  const deleteReduxField = React.useCallback(
     (city: ICities) => dispatch(removeField(city)),
     [dispatch, removeField]
   );
@@ -68,6 +62,7 @@ export const Table: React.FC<Props> = ({ content, title, removeField }) => {
   };
 
   const search = (field: string) => {
+    //TODO: See if I can change the types of obj and values
     let obj: any;
     let values: any[];
     if (field) {
